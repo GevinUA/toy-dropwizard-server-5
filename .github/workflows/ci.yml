@@ -1,25 +1,14 @@
-name: "dropwizard-ci-pipeline"
-
+name: Send LGTM reaction
 on:
-  push:
-    branch:
-      - main
-
+  issue_comment:
+    types: [created]
+  pull_request_review:
+    types: [submitted]
 jobs:
-  build-and-test:
+  build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
-
-      - name: Setup Java
-        uses: actions/setup-java@v1
-        with:
-          java-version: 11
-
-      - name: Build
-        working-directory: .
-        run: ./gradlew build -x test
-
-      - name: Test
-        working-directory: .
-        run: ./gradlew test
+      - uses: actions/checkout@1.0.0
+      - uses: micnncim/action-lgtm-reaction@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.LGTM_SECRET_1 }}
